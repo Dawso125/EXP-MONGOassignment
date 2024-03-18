@@ -6,9 +6,7 @@ const mongoController = require('../controllers/mongoController');
 router.use(express.urlencoded({ extended: true }));// to use URL encoded forms
 
 router.get('/', (req, res) => { // home page
-    if (req.cookies){
     res.sendFile("/workspaces/MongoRender/src/views/home.html");
-    }
 });
 
 router.get('/showcookie', function (req, res) {
