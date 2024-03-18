@@ -6,12 +6,14 @@ const mongoController = require('../controllers/mongoController');
 router.use(express.urlencoded({ extended: true }));// to use URL encoded forms
 
 router.get('/', (req, res) => { // home page
+    if (req.cookies){
     res.sendFile("/workspaces/MongoRender/src/views/home.html");
+    }
 });
 
 router.get('/showcookie', function (req, res) {
     console.log('Cookies: ', req.cookies);
-    res.send(req.cookies); //Send the cookies
+    res.send(req.cookies); //display the cookies
   });
 
 // display login html form
@@ -29,6 +31,6 @@ router.get('/say/:name', (req, res) => {
   res.send('Hello ' + req.params.name + '!');
 });
 
-router.get('/api/mongo/:user', mongoController.login);
+//router.get('/api/mongo/:user', mongoController.login);
 
 module.exports = router;

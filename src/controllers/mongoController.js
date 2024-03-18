@@ -5,14 +5,14 @@ async function login(req, res, user_ID, Password) {
     console.log("Looking for user_ID: " + user_ID + " and Password: " + Password);
   
     try {
-        const user = await mongoService.getUser(user_ID, Password);
+        const user = await mongoService.getUser(user_ID, Password); // run the function in the service
         console.log(user);
       
         if (user === null) {
-            res.sendFile('/workspaces/MongoRender/src/views/notFound.html');
+            res.sendFile('/workspaces/MongoRender/src/views/notFound.html'); // show not found
         } else {
-            res.cookie('cook1', 'x', { maxAge: 20000 });
-            res.send('Login Successful ' + JSON.stringify(user));
+            res.cookie(`cookie_${user_ID}`, 'x', { maxAge: 70000 }); // set a cookie with successful login
+            res.send('Login Successful ' + JSON.stringify(user) + '<br/><button onclick="window.location.assign(\'/\')">Go Home</button>');
         }
     } catch (error) {
         console.error(error);
