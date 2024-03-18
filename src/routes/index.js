@@ -3,20 +3,29 @@
 const express = require('express');
 const router = express.Router();
 const mongoController = require('../controllers/mongoController');
+router.use(express.urlencoded({ extended: true }));
+
+// to use URL encoded forms
 
 router.get('/', (req, res) => { // home page
-  const myquery = req.query;
-  var outstring = "Page works you are at /";
-  res.send(outstring);
+    res.sendFile("/workspaces/MongoRender/src/views/home.html");
 });
 
+// display login html form
 router.get('/login', (req, res) => {
+    res.sendFile('/workspaces/MongoRender/src/views/login.html');
 });
+
+// post the login request
+router.post('/login', (req, res) => {
+    const { user_ID, Password } = req.body;
+    mongoController.login(req, res, user_ID, Password);
+  });
 
 router.get('/say/:name', (req, res) => {
   res.send('Hello ' + req.params.name + '!');
 });
 
-router.get('/api/mongo/:user', mongoController.getUser); // run getUser to get the user
+router.get('/api/mongo/:user', mongoController.login);
 
 module.exports = router;

@@ -1,26 +1,27 @@
 // The controller handles all of the requests
 
 
-const { MongoClient } = require("mongodb");
 const mongoService = require('../services/mongoService');
 
-async function getUser(req, res) {
-  const client = new MongoClient(mongoService.uri);
-  const searchKey = "{ user_ID: '" + req.params.item + "' }";
-  console.log("Looking for: " + searchKey);
 
-  try {
-    const user = await mongoService.getUser(req.params.user);
-    console.log(user);
-    res.send('Found this: ' + JSON.stringify(user));
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Error fetching user');
-  } finally {
-    await client.close();
+// login a user using basic authorization
+async function login(req, res, user_ID, Password) {
+    console.log("Looking for user_ID: " + user_ID + " and Password: " + Password);
+  
+    try {
+      const user = await mongoService.getUser(user_ID, Password);
+      console.log(user);
+      
+      if (user === null){
+       res.sendFile('/workspaces/MongoRender/src/views/notFound.html');
+      } else {
+        res.send('Login Successful ' + JSON.stringify(user));
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Error fetching user');
+    }
   }
-}
-
 module.exports = {
-  getUser
+  login
 };
