@@ -1,34 +1,64 @@
-// this is where all the routes live
-
 const express = require('express');
 const router = express.Router();
 const mongoController = require('../controllers/mongoController');
-router.use(express.urlencoded({ extended: true }));// to use URL encoded forms
 
-router.get('/', (req, res) => { // home page
-    res.sendFile("/workspaces/MongoRender/src/views/home.html");
+// Middleware to parse URL encoded forms
+router.use(express.urlencoded({ extended: true }));
+
+// Home page route
+router.get('/', mongoController.checkCookie, (req, res) => {
+  if (req.cookies) {
+    res.sendFile("/workspaces/MongoRender/views/home.html");
+  }
 });
 
-router.get('/showcookie', function (req, res) {
-    console.log('Cookies: ', req.cookies);
-    res.send(req.cookies); //display the cookies
-  });
+// Display all cookies route
+router.get('/showcookie', mongoController.checkCookie, (req, res) => {
+  if (req.cookies){
+  // Render the HTML file and pass active cookies data
+  res.render('showcookie', { cookies: req.cookies });
+  }
+});
 
-// display login html form
+// Delete all cookies route
+router.get('/clearcookie', (req, res) => {
+  for (const cookieName in req.cookies) { // clear each cookie in req.cookies
+    res.clearCookie(cookieName);
+  }
+  res.redirect('/showcookie'); // Redirect to showcookie route to display updated cookies
+});
+
+// Display login HTML form route
 router.get('/login', (req, res) => {
-    res.sendFile('/workspaces/MongoRender/src/views/login.html');
+  res.sendFile('/workspaces/MongoRender/views/login.html');
 });
 
-// post the login request
+// Post the login request route
 router.post('/login', (req, res) => {
-    const { user_ID, Password } = req.body;
-    mongoController.login(req, res, user_ID, Password); // call the controller endpoint
-  });
+  const { user_ID, Password } = req.body;
+  mongoController.login(req, res, user_ID, Password); // Call the controller endpoint
+});
 
+router.get('/register', (req, res) => {
+  res.sendFile('/workspaces/MongoRender/views/register.html');
+});
+
+// Route to handle registration form submission
+router.post('/register', async (req, res) => {
+  const { user_ID, Password } = req.body;
+  
+  try {
+    await mongoController.register(req, res, user_ID, Password); // Call the controller function to register the user
+    res.redirect('/');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error registering user, see console for reason');
+  }
+});
+
+// Route to say hello to a specific name
 router.get('/say/:name', (req, res) => {
   res.send('Hello ' + req.params.name + '!');
 });
-
-//router.get('/api/mongo/:user', mongoController.login);
 
 module.exports = router;

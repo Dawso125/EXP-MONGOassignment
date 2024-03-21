@@ -6,7 +6,7 @@
 const { MongoClient } = require("mongodb");
 const uri = "mongodb+srv://MongoUser:AY4WJU4csgbzGG9O@cluster0.2opxftr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
-// get a user by checking the 
+// get a user
 async function getUser(username, password) {
     const client = new MongoClient(uri);
     try {
