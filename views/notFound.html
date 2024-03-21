@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <h1>404: no cookies found </h1>
+    <h1>404: Cookies or a User not found.</h1>
     <button onclick="window.location.href='/'">Go Home</button>
+    <form action="/clearcookie" method="GET">
+        <button type="submit">Clear Cookies</button>
+    </form>
 </head>
 <body>
     

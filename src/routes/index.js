@@ -25,7 +25,11 @@ router.get('/clearcookie', (req, res) => {
   for (const cookieName in req.cookies) { // clear each cookie in req.cookies
     res.clearCookie(cookieName);
   }
-  res.redirect('/showcookie'); // Redirect to showcookie route to display updated cookies
+  res.redirect('/clearedcookie'); // Redirect to showcookie route to display updated cookies
+});
+
+router.get('/clearedcookie', (req, res) => {
+  res.sendFile('/workspaces/MongoRender/views/deletecookie.html');
 });
 
 // Display login HTML form route
