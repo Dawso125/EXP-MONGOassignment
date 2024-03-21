@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Cookies</title>
+</head>
+<body>
+    <h1>Active Cookies</h1>
+    <ul>
+        <% for (var cookie in cookies) { %>
+            <li><strong><%= cookie %>:</strong> <%= cookies[cookie] %></li>
+        <% } %>
+    </ul>
+    <p>!IF THERE ARE NO COOKIES, YOU WILL BE ROUTED TO THE LOGIN PAGE!</p>
+    <p>Even if you clear them, because existence of a cookie is checked for access to on each page after login</p>
+    <br/><button onclick="window.location.assign('/')">Go Home</button>
+    <!-- Button to clear cookies -->
+    <form action="/clearcookie" method="GET">
+        <button type="submit">Clear Cookies</button>
+    </form>
+</body>
+</html>
