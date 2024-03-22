@@ -3,7 +3,7 @@ var cookieParser = require('cookie-parser')
 const app = express();
 const port = 3000;
 
-const mongoRoutes = require('./routes/index');
+const mongoRoutes = require('./src/routes/index');
 
 app.listen(port, () => {
   console.log('Server started at http://localhost:' + port);
