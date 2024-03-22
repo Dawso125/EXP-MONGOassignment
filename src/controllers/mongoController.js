@@ -11,7 +11,7 @@ async function login(req, res, user_ID, Password) {
         console.log(user);
       
         if (user === null) {
-            res.sendFile('/workspaces/MongoRender/views/notFound.html'); // show not found
+            res.sendFile('notFound.html', { root: '/opt/render/project/src/views/' }); // show not found
         } else {
             const page = `Login Successful! Cookie = cookie_${user_ID} <br/>${JSON.stringify(user)}
             <br/><button onclick="window.location.assign('/')">Go Home</button>
