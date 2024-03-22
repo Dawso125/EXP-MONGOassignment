@@ -8,7 +8,7 @@ router.use(express.urlencoded({ extended: true }));
 // Home page route
 router.get('/', mongoController.checkCookie, (req, res) => {
   if (req.cookies) {
-    res.sendFile("EXP-MONGOassignment/views/home.html");
+    res.sendFile('home.html', { root: '/workspaces/EXP-MONGOassignment/views/' });
   }
 });
 
@@ -29,12 +29,14 @@ router.get('/clearcookie', (req, res) => {
 });
 
 router.get('/clearedcookie', (req, res) => {
-  res.sendFile('EXP-MONGOassignment/views/deletecookie.html');
+  res.sendFile('deletecookie.html', { root: 'EXP-MONGOassignment/views/' });
+
 });
 
 // Display login HTML form route
 router.get('/login', (req, res) => {
-  res.sendFile('EXP-MONGOassignment/views/login.html');
+  res.sendFile('login.html', { root: '/workspaces/EXP-MONGOassignment/views/' });
+  
 });
 
 // Post the login request route
@@ -44,7 +46,7 @@ router.post('/login', (req, res) => {
 });
 
 router.get('/register', (req, res) => {
-  res.sendFile('EXP-MONGOassignment/views/register.html');
+  res.sendFile('register.html', { root: '/workspaces/EXP-MONGOassignment/views/' });
 });
 
 // Route to handle registration form submission
